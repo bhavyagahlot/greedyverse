@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GREEDYVERSE – Interactive Greedy Algorithm Visualizer</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/graph-editor.css">
+  <link rel="stylesheet" href="css/visualizer.css">
+  <link rel="stylesheet" href="css/battle.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="brand-container" id="nav-brand-home" onclick="window.app.switchTab('home')">
+      <div class="brand-logo-icon">&#9889;</div>
+      <div>
+        <h1 class="brand-title">GREEDYVERSE</h1>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li class="nav-item active" data-tab="home">Home</li>
+      <li class="nav-item" data-tab="dijkstra">Dijkstra</li>
+      <li class="nav-item" data-tab="prim">Prim</li>
+      <li class="nav-item" data-tab="kruskal">Kruskal</li>
+      <li class="nav-item" data-tab="battle">Battle Mode</li>
+      <li class="nav-item" data-tab="scenarios">Scenarios</li>
+      <li class="nav-item" data-tab="learning">Learning Mode</li>
+      <li class="nav-item" data-tab="quiz">Quiz & Challenge</li>
+    </ul>
+
+    <div class="nav-actions">
+      <div class="engine-badge" id="engine-status-badge" title="Click to inspect C Architecture & Memory">
+        <span class="engine-dot"></span>
+        <span id="engine-badge-text">WebAssembly (C-Core)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       VIEW 1: HOMEPAGE / LANDING
+       ============================================================ -->
+  <main id="view-home" class="app-view active">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-badge">
+        <span>&#9881; B.Tech DAA & Industrial Programming Project</span>
+      </div>
+      <h1 class="hero-title">
+        GREEDYVERSE<br>
+        <span class="gradient-text">See How Algorithms Think.</span>
+      </h1>
+      <p class="hero-tagline">Interactive Educational Visualizer for Greedy Algorithms</p>
+      <p class="hero-desc">
+        Explore Dijkstra's Shortest Path, Prim's MST, and Kruskal's MST powered by an authentic 
+        <strong>C-Core execution engine</strong>. Construct custom graphs, animate internal memory relaxations, 
+        and discover how locally optimal choices conquer complex network topologies.
+      </p>
+
+      <div class="hero-cta">
+        <button class="btn btn-primary" id="cta-explore-algorithms">
+          Explore Algorithms &rarr;
+        </button>
+        <button class="btn btn-neon" onclick="window.app.switchTab('battle')">
+          Launch Algorithm Battle
+        </button>
+        <button class="btn btn-ghost" onclick="window.app.switchTab('learning')">
+          Read Theory Guide
+        </button>
+      </div>
+
+      <!-- 3 Core Algorithm Cards -->
+      <div class="algo-cards-grid">
+        <!-- Dijkstra Card -->
+        <div class="algo-card dijkstra glass-panel" id="home-card-dijkstra" style="cursor: pointer;">
+          <span class="algo-card-badge">Single-Source Shortest Path</span>
+          <h3>Dijkstra's Algorithm</h3>
+          <p>
+            Finds the absolute lowest-cost path from a starting vertex to all other vertices in non-negative weighted graphs. 
+            Operates by greedily finalizing the closest unvisited vertex at each step.
+          </p>
+          <div class="algo-card-meta">
+            <span>Time: <strong>O(V²)</strong></span>
+            <span>Space: <strong>O(V²)</strong></span>
+            <span>Constraint: <strong>Weights ≥ 0</strong></span>
+          </div>
+          <button class="btn btn-primary btn-sm">Launch Dijkstra Visualizer</button>
+        </div>
+
+        <!-- Prim Card -->
+        <div class="algo-card prim glass-panel" id="home-card-prim" style="cursor: pointer;">
+          <span class="algo-card-badge">Vertex-Centric MST</span>
+          <h3>Prim's Algorithm</h3>
+          <p>
+            Grows a Minimum Spanning Tree outward from a root vertex by repeatedly choosing the cheapest edge that crosses 
+            the cut between the tree and remaining vertices.
+          </p>
+          <div class="algo-card-meta">
+            <span>Time: <strong>O(V²)</strong></span>
+            <span>Space: <strong>O(V²)</strong></span>
+            <span>Cut Property: <strong>Optimal</strong></span>
+          </div>
+          <button class="btn btn-neon btn-sm">Launch Prim Visualizer</button>
+        </div>
+
+        <!-- Kruskal Card -->
+        <div class="algo-card kruskal glass-panel" id="home-card-kruskal" style="cursor: pointer;">
+          <span class="algo-card-badge">Edge-Centric + DSU</span>
+          <h3>Kruskal's Algorithm</h3>
+          <p>
+            Sorts all graph edges globally by ascending weight, accepting edges that connect disjoint components while 
+            using Disjoint Set Union (DSU) to reject edges that form cycles.
+          </p>
+          <div class="algo-card-meta">
+            <span>Time: <strong>O(E log E)</strong></span>
+            <span>Space: <strong>O(E + V)</strong></span>
+            <span>DSU: <strong>Union-Find</strong></span>
+          </div>
+          <button class="btn btn-ghost btn-sm" style="border-color: var(--primary-purple); color: #c77dff;">Launch Kruskal Visualizer</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- What is a Greedy Algorithm Section -->
+    <section class="info-section">
+      <div class="section-header">
+        <h2>What is a Greedy Algorithm?</h2>
+        <p>Understanding the fundamental design paradigm that powers modern network routing and spanning tree construction.</p>
+      </div>
+
+      <div class="greedy-pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">&#127919;</div>
+          <h4>1. Greedy-Choice Property</h4>
+          <p>A globally optimal solution can be arrived at by making locally optimal (greedy) choices at each stage without reconsidering previous decisions.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">&#128736;</div>
+          <h4>2. Optimal Substructure</h4>
+          <p>An optimal solution to the problem contains within it optimal solutions to subproblems, ensuring mathematical convergence to the global optimum.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">&#9878;</div>
+          <h4>3. No Backtracking</h4>
+          <p>Unlike Dynamic Programming or Backtracking, Greedy algorithms commit irreversibly to their choices, yielding superior runtime efficiency.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real World Applications Section -->
+    <section class="info-section">
+      <div class="section-header">
+        <h2>Real-World Engineering Applications</h2>
+        <p>How the algorithms implemented in this project power global digital and physical infrastructure.</p>
+      </div>
+
+      <div class="greedy-pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">&#127757;</div>
+          <h4>GPS & Logistics (Dijkstra)</h4>
+          <p>Navigation satellites and Google Maps utilize Dijkstra variations (A*) to find optimal routes through millions of interconnected road networks.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">&#128268;</div>
+          <h4>Power Grid & Cabling (Prim)</h4>
+          <p>Electrical distribution networks and high-voltage transmission lines connect cities with minimum total copper/aluminum cabling cost.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">&#128225;</div>
+          <h4>5G Fiber Backbones (Kruskal)</h4>
+          <p>Telecom operators layout fiber-optic backbones connecting regional cellular towers at minimum infrastructure trenching capital expenditure.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       VIEW 2: VISUALIZER & INTERACTIVE GRAPH EDITOR
+       ============================================================ -->
+  <main id="view-visualizer" class="app-view">
+    <div class="visualizer-layout">
+      
+      <!-- Interactive Canvas Area -->
+      <div class="canvas-container" id="canvas-container-box">
+        <!-- Floating Canvas Toolbar -->
+        <div class="canvas-toolbar">
+          <button class="tool-btn active" id="tool-select" data-mode="select" title="Select & Drag Nodes / Click Edge to Edit Weight">
+            &#9757; Select / Move
+          </button>
+          <button class="tool-btn" id="tool-add-node" data-mode="add-node" title="Click anywhere to drop a node">
+            &#43; Add Node
+          </button>
+          <button class="tool-btn" id="tool-add-edge" data-mode="add-edge" title="Click two nodes to connect with an edge">
+            &#9585; Add Edge
+          </button>
+          <button class="tool-btn" id="tool-delete" data-mode="delete" title="Click node or edge to delete">
+            &#128465; Delete
+          </button>
+
+          <div class="toolbar-separator"></div>
+
+          <button class="tool-btn" id="tool-random" title="Generate Random Graph">
+            &#127922; Random
+          </button>
+          <button class="tool-btn" id="tool-matrix-editor" title="Custom Matrix / Edge List Import">
+            &#128203; Matrix Import
+          </button>
+          <button class="tool-btn" id="tool-clear" title="Clear Canvas">
+            Clear
+          </button>
+
+          <div class="toolbar-separator"></div>
+
+          <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; padding: 0 0.4rem;">
+            <input type="checkbox" id="toggle-directed"> Directed
+          </label>
+        </div>
+
+        <!-- Canvas Mode Hint Pill -->
+        <div class="canvas-hint">
+          <span class="hint-dot"></span>
+          <span id="canvas-mode-hint">Drag nodes to reposition. Click edge to edit weight.</span>
+        </div>
+
+        <!-- HTML5 Canvas -->
+        <canvas id="graph-canvas"></canvas>
+
+        <!-- Inline Edge Weight Prompt Dialog -->
+        <div class="weight-prompt-dialog" id="weight-prompt-dialog">
+          <span class="weight-prompt-title">Edge Weight</span>
+          <div class="weight-input-row">
+            <input type="number" id="weight-prompt-input" class="weight-input-field" value="4" min="0" max="999">
+            <button class="btn btn-primary btn-sm" id="weight-prompt-ok">&#10004;</button>
+            <button class="btn btn-ghost btn-sm" id="weight-prompt-cancel">&#10006;</button>
+          </div>
+        </div>
+
+        <!-- Canvas Bottom HUD -->
+        <div class="canvas-bottom-hud">
+          <div class="canvas-stats-badge">
+            Nodes: <strong id="canvas-stat-nodes">6</strong> | Edges: <strong id="canvas-stat-edges">9</strong>
+          </div>
+          <div class="canvas-stats-badge">
+            Presets:
+            <select id="graph-preset-select" class="select-input" style="padding: 0.15rem 0.4rem; font-size: 0.75rem; margin-left: 0.3rem;">
+              <option value="default">CLRS Textbook (6 Nodes)</option>
+              <option value="dense">Dense Mesh (6 Nodes)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Control & Narration Sidebar -->
+      <aside class="visualizer-sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            <span id="active-algo-title">Dijkstra's Algorithm</span>
+          </div>
+          <span class="algo-badge-pill" id="active-algo-badge">O(V²)</span>
+        </div>
+
+        <div class="sidebar-content">
+          <!-- Algorithm-Specific Configuration Inputs -->
+          <div id="dijkstra-specific-controls" style="display: flex; gap: 0.75rem;">
+            <div class="control-group" style="flex: 1;">
+              <label class="control-label">Source Node</label>
+              <select id="dijkstra-source-select" class="select-input"></select>
+            </div>
+            <div class="control-group" style="flex: 1;">
+              <label class="control-label">Destination</label>
+              <select id="dijkstra-dest-select" class="select-input"></select>
+            </div>
+          </div>
+
+          <div id="prim-specific-controls" style="display: none; flex-direction: column;">
+            <div class="control-group">
+              <label class="control-label">Starting Root Vertex</label>
+              <select id="prim-start-select" class="select-input"></select>
+            </div>
+          </div>
+
+          <div id="kruskal-specific-controls" style="display: none;">
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+              Kruskal sorts all graph edges globally by weight and applies <strong>Disjoint Set Union (Union-Find)</strong> with path compression.
+            </p>
+          </div>
+
+          <!-- Primary Execution Button -->
+          <button class="btn btn-primary" id="btn-run-algorithm" style="width: 100%;">
+            &#9658; Run Algorithm
+          </button>
+
+          <!-- Playback Controls Dock -->
+          <div class="playback-bar">
+            <div class="playback-buttons">
+              <button class="btn-ctrl" id="btn-reset" title="Reset to Start">&#8634;</button>
+              <button class="btn-ctrl" id="btn-step-prev" title="Previous Step">&#9664;</button>
+              <button class="btn-ctrl btn-play-pause" id="btn-play-pause" title="Play Animation">&#9654;</button>
+              <button class="btn-ctrl" id="btn-step-next" title="Next Step">&#9654;</button>
+            </div>
+
+            <div class="speed-control">
+              <span id="speed-value">1.0x</span>
+              <input type="range" id="speed-slider" class="speed-slider" min="0.25" max="3" step="0.25" value="1.0">
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="step-progress-wrapper">
+            <div class="step-progress-header">
+              <span id="step-counter-text">Step 0 / 0</span>
+              <span id="step-pct-text">Ready</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="step-progress-fill"></div>
+            </div>
+          </div>
+
+          <!-- Step Narration Card -->
+          <div class="narration-card">
+            <div class="narration-header">
+              <span class="narration-title" id="narration-title">Initialization</span>
+              <span class="narration-badge" id="narration-badge">Ready</span>
+            </div>
+            <p class="narration-text" id="narration-text">
+              Click "Run Algorithm" to compute the step trace through the C engine. Use the playback dock above to inspect each relaxation step.
+            </p>
+          </div>
+
+          <!-- HUD Metrics Display -->
+          <div class="metrics-hud">
+            <div class="metric-pill">
+              <span class="metric-pill-label" id="metric-label-1">Path Total Cost</span>
+              <span class="metric-pill-value" id="metric-value-1">0</span>
+            </div>
+            <div class="metric-pill">
+              <span class="metric-pill-label" id="metric-label-2">Settled Vertices</span>
+              <span class="metric-pill-value" id="metric-value-2">0</span>
+            </div>
+          </div>
+
+          <!-- Kruskal DSU Visualizer Display -->
+          <div id="dsu-visualizer-panel" style="display: none;">
+            <div class="control-label" style="margin-bottom: 0.35rem;">Disjoint Set Union (Components)</div>
+            <div class="dsu-tree-grid" id="dsu-chips-container"></div>
+          </div>
+
+          <!-- Live State Table -->
+          <div class="state-table-container">
+            <div class="state-table-title">Live C Memory Array (Dist / Parent)</div>
+            <table class="state-table">
+              <thead id="state-table-head"></thead>
+              <tbody id="state-table-body"></tbody>
+            </table>
+          </div>
+
+          <!-- Visualizer Color Legend -->
+          <div class="legend-panel">
+            <div class="legend-item"><span class="legend-color-dot cyan"></span> Current Min</div>
+            <div class="legend-item"><span class="legend-color-dot blue"></span> Edge Under Test</div>
+            <div class="legend-item"><span class="legend-color-dot emerald"></span> Relaxed / In MST</div>
+            <div class="legend-item"><span class="legend-color-dot crimson"></span> Cycle Rejected</div>
+            <div class="legend-item"><span class="legend-color-dot gold"></span> Shortest Path</div>
+          </div>
+
+          <!-- View C Source Code Button -->
+          <button class="btn btn-ghost btn-sm" id="btn-view-c-code" style="width: 100%;">
+            &#128187; Inspect Underlying C Source Code
+          </button>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+       VIEW 3: ALGORITHM BATTLE MODE
+       ============================================================ -->
+  <main id="view-battle" class="app-view">
+    <div class="battle-container">
+      <div class="battle-header-banner">
+        <h2 class="battle-title">Algorithm Battle Arena</h2>
+        <p class="battle-subtitle">
+          Prim's Algorithm (Vertex-Centric Cut Selection) vs Kruskal's Algorithm (Edge-Centric DSU Cycle Detection)
+          executed on the exact same graph in real-time.
+        </p>
+        <div class="battle-actions">
+          <button class="btn btn-primary" id="btn-run-battle">
+            Engage Algorithm Battle
+          </button>
+          <button class="btn btn-ghost" onclick="window.app.switchTab('dijkstra')">
+            Open Graph Editor
+          </button>
+        </div>
+      </div>
+
+      <!-- Verdict Banner -->
+      <div class="battle-verdict-banner" id="battle-verdict-banner">
+        <div class="verdict-icon">&#9878;</div>
+        <div class="verdict-content">
+          <h4>Battle Status: Ready</h4>
+          <p>Click "Engage Algorithm Battle" to measure edge examination counts, MST cost agreement, and execution runtime.</p>
+        </div>
+      </div>
+
+      <!-- Side-by-Side Dual Arena Cards -->
+      <div class="battle-arena-grid">
+        <!-- Fighter 1: Prim -->
+        <div class="fighter-card prim">
+          <div class="fighter-header">
+            <h3 class="fighter-name">Prim's Algorithm</h3>
+            <span class="fighter-approach-badge">Cut-Crossing Approach</span>
+          </div>
+          <div class="fighter-stats-grid">
+            <div class="stat-box">
+              <div class="stat-label">Final MST Weight</div>
+              <div class="stat-number" id="battle-prim-weight">-</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Edges Considered</div>
+              <div class="stat-number" id="battle-prim-examined">-</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Edges Accepted</div>
+              <div class="stat-number" id="battle-prim-accepted">-</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Cut Edges Rejected</div>
+              <div class="stat-number" id="battle-prim-rejected">-</div>
+            </div>
+          </div>
+          <div class="stat-box" style="margin-top: -0.5rem;">
+            <div class="stat-label">Execution Time (C-Engine)</div>
+            <div class="stat-number" id="battle-prim-time" style="color: var(--accent-emerald);">-</div>
+          </div>
+          <div class="edge-sequence-box">
+            <div class="edge-sequence-title">Prim Edge Addition Sequence:</div>
+            <div class="edge-step-pills" id="battle-prim-edges-list">
+              <span style="font-size: 0.8rem; color: var(--text-dim);">No battle executed yet.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fighter 2: Kruskal -->
+        <div class="fighter-card kruskal">
+          <div class="fighter-header">
+            <h3 class="fighter-name">Kruskal's Algorithm</h3>
+            <span class="fighter-approach-badge">Edge-Sorting + DSU</span>
+          </div>
+          <div class="fighter-stats-grid">
+            <div class="stat-box">
+              <div class="stat-label">Final MST Weight</div>
+              <div class="stat-number" id="battle-kruskal-weight">-</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Edges Considered</div>
+              <div class="stat-number" id="battle-kruskal-examined">-</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Edges Accepted</div>
+              <div class="stat-number" id="battle-kruskal-accepted">-</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Cycle Edges Rejected</div>
+              <div class="stat-number" id="battle-kruskal-rejected">-</div>
+            </div>
+          </div>
+          <div class="stat-box" style="margin-top: -0.5rem;">
+            <div class="stat-label">Execution Time (C-Engine)</div>
+            <div class="stat-number" id="battle-kruskal-time" style="color: var(--primary-purple);">-</div>
+          </div>
+          <div class="edge-sequence-box">
+            <div class="edge-sequence-title">Kruskal Edge Addition Sequence:</div>
+            <div class="edge-step-pills" id="battle-kruskal-edges-list">
+              <span style="font-size: 0.8rem; color: var(--text-dim);">No battle executed yet.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Theoretical Comparison Breakdown -->
+      <div class="battle-complexity-card">
+        <h3>Academic Analysis: When is Prim vs Kruskal Faster?</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+          In academic algorithm analysis, neither algorithm is unconditionally "faster". Their efficiency depends primarily on the 
+          <strong>density of the graph</strong>:
+        </p>
+        <table class="complexity-table">
+          <thead>
+            <tr><th>Metric</th><th>Prim's Algorithm (Adjacency Matrix)</th><th>Kruskal's Algorithm (DSU)</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Theoretical Complexity</strong></td>
+              <td><code>O(V²)</code></td>
+              <td><code>O(E log E)</code></td>
+            </tr>
+            <tr>
+              <td><strong>Sparse Graph Behavior (E ≪ V²)</strong></td>
+              <td>Matrix scan always takes <code>O(V²)</code> regardless of sparsity.</td>
+              <td>Very fast! Sorting small number of edges takes minimal operations.</td>
+            </tr>
+            <tr>
+              <td><strong>Dense Graph Behavior (E ≈ V²)</strong></td>
+              <td>Superior! Takes <code>O(V²)</code>, avoiding expensive edge sorting.</td>
+              <td>Slower, as sorting <code>V²</code> edges requires <code>O(V² log V)</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Cycle Detection</strong></td>
+              <td>Implicit via the Cut Property (never creates cycles).</td>
+              <td>Explicit via Disjoint Set Union (Path Compression + Union by Rank).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================================
+       VIEW 4: REAL-WORLD SCENARIOS
+       ============================================================ -->
+  <main id="view-scenarios" class="app-view">
+    <div style="max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem;">
+      <div class="section-header">
+        <h2 style="font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 0.5rem;">Real-World Engineering Scenarios</h2>
+        <p>Interactive case studies demonstrating how Dijkstra, Prim, and Kruskal solve critical physical infrastructure challenges.</p>
+      </div>
+
+      <div class="algo-cards-grid" style="margin-top: 2rem;">
+        <!-- Scenario A -->
+        <div class="algo-card dijkstra glass-panel">
+          <span class="algo-card-badge">Scenario A &bull; Dijkstra</span>
+          <h3>City Route Finder</h3>
+          <p>
+            Emergency medical transport routing between Metropolis and Gotham through high-traffic highways and river bridges. 
+            Determines the lowest-latency path in kilometers.
+          </p>
+          <div class="algo-card-meta">
+            <span>Graph: <strong>6 Cities, 9 Routes</strong></span>
+            <span>Target: <strong>Metropolis &rarr; Gotham</strong></span>
+          </div>
+          <button class="btn btn-primary" onclick="window.app.scenarioManager.loadScenario('city')">
+            Launch City Scenario &rarr;
+          </button>
+        </div>
+
+        <!-- Scenario B -->
+        <div class="algo-card prim glass-panel">
+          <span class="algo-card-badge">Scenario B &bull; Prim</span>
+          <h3>College Campus Fiber Planner</h3>
+          <p>
+            Interconnect 7 campus academic buildings to high-speed Gigabit fiber starting from Server Central. 
+            Minimizes total underground trenching and fiber-optic cabling expenditure.
+          </p>
+          <div class="algo-card-meta">
+            <span>Graph: <strong>7 Buildings, 12 Paths</strong></span>
+            <span>Root: <strong>Server Central</strong></span>
+          </div>
+          <button class="btn btn-neon" onclick="window.app.scenarioManager.loadScenario('college')">
+            Launch College Scenario &rarr;
+          </button>
+        </div>
+
+        <!-- Scenario C -->
+        <div class="algo-card kruskal glass-panel">
+          <span class="algo-card-badge">Scenario C &bull; Kruskal</span>
+          <h3>5G Telecom Backbone Grid</h3>
+          <p>
+            Connect 7 regional wireless microwave towers with minimum total radio equipment capital cost. 
+            Uses Kruskal's edge sorting and DSU to guarantee zero transmission feedback loops.
+          </p>
+          <div class="algo-card-meta">
+            <span>Graph: <strong>7 Towers, 10 Links</strong></span>
+            <span>Cycle Prevention: <strong>DSU Active</strong></span>
+          </div>
+          <button class="btn btn-ghost" style="border-color: var(--primary-purple); color: #c77dff;" onclick="window.app.scenarioManager.loadScenario('telecom')">
+            Launch Telecom Scenario &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================================
+       VIEW 5: LEARNING MODE
+       ============================================================ -->
+  <main id="view-learning" class="app-view">
+    <div style="max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem 4rem;">
+      <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 2rem;">
+        <button class="btn btn-ghost learning-tab-btn active" data-algo="dijkstra">Dijkstra's Algorithm</button>
+        <button class="btn btn-ghost learning-tab-btn" data-algo="prim">Prim's Algorithm</button>
+        <button class="btn btn-ghost learning-tab-btn" data-algo="kruskal">Kruskal's Algorithm</button>
+      </div>
+
+      <div id="learning-content-display" class="glass-panel" style="padding: 2.5rem;">
+        <!-- Populated dynamically by learning.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================================
+       VIEW 6: QUIZ & CHALLENGE MODE
+       ============================================================ -->
+  <main id="view-quiz" class="app-view">
+    <div style="max-width: 900px; margin: 2.5rem auto; padding: 0 1.5rem 4rem;">
+      <div class="section-header">
+        <h2 style="font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 0.5rem;">Greedy Algorithms Quiz & Challenge</h2>
+        <p>Test your understanding of Greedy Choice Properties, relaxation mechanics, DSU cycle detection, and time complexities.</p>
+      </div>
+
+      <div id="quiz-container">
+        <!-- Rendered by quiz.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================================
+       MODAL 1: C ARCHITECTURE & SOURCE CODE INSPECTOR
+       ============================================================ -->
+  <div class="modal-overlay" id="c-inspector-modal">
+    <div class="modal-box" style="max-width: 880px;">
+      <button class="modal-close-btn">&times;</button>
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <span style="font-size: 1.5rem; color: var(--neon-cyan);">&#128187;</span>
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.35rem;">C Algorithm Engine Inspector</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Authentic ANSI C implementations powering GREEDYVERSE</p>
+        </div>
+      </div>
+
+      <!-- File Navigation Tabs -->
+      <div style="display: flex; gap: 0.4rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 1rem; overflow-x: auto;">
+        <button class="btn btn-ghost btn-sm c-modal-tab-btn active" data-file="dijkstra.c">dijkstra.c</button>
+        <button class="btn btn-ghost btn-sm c-modal-tab-btn" data-file="prim.c">prim.c</button>
+        <button class="btn btn-ghost btn-sm c-modal-tab-btn" data-file="kruskal.c">kruskal.c</button>
+        <button class="btn btn-ghost btn-sm c-modal-tab-btn" data-file="greedyverse.h">greedyverse.h</button>
+        <button class="btn btn-ghost btn-sm c-modal-tab-btn" data-file="main.c">main.c</button>
+        <button class="btn btn-ghost btn-sm c-modal-tab-btn" data-file="Makefile">Makefile</button>
+      </div>
+
+      <!-- Action Row -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <span style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--neon-cyan);" id="c-modal-current-file">dijkstra.c</span>
+        <button class="btn btn-ghost btn-sm" id="btn-copy-c-source">&#128203; Copy C Code</button>
+      </div>
+
+      <!-- C Code View Area -->
+      <pre style="background: #070a13; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 1rem; max-height: 380px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.82rem; color: #e2e8f0; line-height: 1.5;"><code id="c-source-code-view">/* Loading C source code... */</code></pre>
+
+      <!-- Live C Execution Console -->
+      <div style="margin-top: 1.25rem;">
+        <div class="control-label" style="margin-bottom: 0.4rem;">Live C Engine Execution Log</div>
+        <pre id="c-engine-console-output" style="background: #020408; border: 1px solid rgba(0, 245, 212, 0.2); border-radius: var(--radius-sm); padding: 0.75rem; max-height: 120px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">[C-CORE] System initialized. Ready to execute algorithms.</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL 2: CUSTOM MATRIX & EDGE LIST IMPORTER
+       ============================================================ -->
+  <div class="modal-overlay" id="matrix-modal">
+    <div class="modal-box" style="max-width: 650px;">
+      <button class="modal-close-btn">&times;</button>
+      <h3 style="font-family: var(--font-heading); font-size: 1.35rem; margin-bottom: 0.5rem;">Custom Graph Data Import</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Paste or edit edges below in format: <code>&lt;Source&gt; &lt;Target&gt; &lt;Weight&gt;</code> (one edge per line).
+      </p>
+
+      <textarea id="edge-list-textarea" style="width: 100%; height: 220px; background: var(--bg-dark); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-mono); font-size: 0.88rem; padding: 0.85rem; outline: none; margin-bottom: 1.25rem;" placeholder="A B 4&#10;A C 2&#10;B C 1&#10;B D 5&#10;C D 8&#10;C E 10&#10;D E 2"></textarea>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button class="btn btn-ghost" onclick="document.getElementById('matrix-modal').classList.remove('open')">Cancel</button>
+        <button class="btn btn-primary" id="btn-matrix-apply">Apply & Render Graph</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800; color: #fff;">
+        GREEDYVERSE
+      </div>
+      <p>
+        B.Tech Design and Analysis of Algorithms (DAA) & Industrial Programming Capstone Project.<br>
+        Demonstrating the Greedy Method through real ANSI C implementations and WebAssembly.
+      </p>
+      <div class="footer-badges">
+        <span class="footer-badge">C99 Standard Core</span>
+        <span class="footer-badge">WebAssembly Architecture</span>
+        <span class="footer-badge">HTML5 Canvas Retina Renderer</span>
+        <span class="footer-badge">Disjoint Set Union (DSU)</span>
+        <span class="footer-badge">REST API Bridge</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/graph.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/c-wasm-engine.js"></script>
+  <script src="js/visualizer.js"></script>
+  <script src="js/battle.js"></script>
+  <script src="js/scenarios.js"></script>
+  <script src="js/learning.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+/* ============================================================
+   GREEDYVERSE - Algorithm Battle Mode Stylesheet
+   Prim vs Kruskal Head-to-Head Comparison
+   ============================================================ */
+
+.battle-container {
+  max-width: 1300px;
+  margin: 1.5rem auto;
+  padding: 0 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.battle-header-banner {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(13, 19, 34, 0.9) 0%, rgba(22, 14, 45, 0.9) 100%);
+  border: 1px solid var(--border-purple);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(157, 78, 221, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.battle-header-banner::after {
+  content: 'VS';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading);
+  font-size: 7rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+}
+
+.battle-title {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--primary-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.battle-subtitle {
+  color: var(--text-muted);
+  max-width: 650px;
+  margin: 0 auto 1.5rem;
+  font-size: 1rem;
+}
+
+/* Battle Action Bar */
+.battle-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Side-by-Side Dual Card Grid */
+.battle-arena-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.fighter-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+}
+
+.fighter-card.prim {
+  border-top: 4px solid var(--accent-emerald);
+}
+
+.fighter-card.kruskal {
+  border-top: 4px solid var(--primary-purple);
+}
+
+.fighter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fighter-name {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.fighter-card.prim .fighter-name { color: var(--accent-emerald); }
+.fighter-card.kruskal .fighter-name { color: var(--primary-purple); }
+
+.fighter-approach-badge {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+}
+
+/* Fighter Metrics Grid */
+.fighter-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.stat-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.stat-number {
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Edge Sequence List */
+.edge-sequence-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.edge-sequence-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.edge-step-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.edge-pill {
+  padding: 0.25rem 0.55rem;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Comparison Conclusion Banner */
+.battle-verdict-banner {
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius-md);
+  background: rgba(6, 214, 160, 0.08);
+  border: 1px solid rgba(6, 214, 160, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.verdict-icon {
+  font-size: 2.2rem;
+  color: var(--accent-emerald);
+}
+
+.verdict-content h4 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--accent-emerald);
+  margin-bottom: 0.3rem;
+}
+
+.verdict-content p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Complexity Comparison Deep Dive Card */
+.battle-complexity-card {
+  padding: 1.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.battle-complexity-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+  color: var(--neon-cyan);
+}
+
+.complexity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.complexity-table th, .complexity-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+}
+
+.complexity-table th {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.complexity-table td code {
+  font-family: var(--font-mono);
+  color: var(--neon-cyan);
+  background: rgba(0, 245, 212, 0.08);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+@media (max-width: 900px) {
+  .battle-arena-grid {
+    grid-template-columns: 1fr;
+  }
+}

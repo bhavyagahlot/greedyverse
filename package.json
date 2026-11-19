@@ -1,0 +1,22 @@
+{
+  "name": "greedyverse",
+  "version": "1.0.0",
+  "description": "GREEDYVERSE - Modern Interactive Greedy Algorithm Visualizer (B.Tech DAA & Industrial Programming Capstone)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test_algorithms.js"
+  },
+  "keywords": [
+    "greedy-algorithm",
+    "dijkstra",
+    "prim",
+    "kruskal",
+    "daa",
+    "c",
+    "webassembly",
+    "visualizer"
+  ],
+  "author": "GREEDYVERSE Team",
+  "license": "MIT"
+}

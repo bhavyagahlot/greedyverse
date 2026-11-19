@@ -1,0 +1,307 @@
+/* ============================================================
+   GREEDYVERSE - Visualizer & Animation Controls Stylesheet
+   Step-by-Step Playback, Narration Box, Distance/DSU HUD
+   ============================================================ */
+
+/* Playback Control Bar */
+.playback-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.playback-buttons {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.btn-ctrl {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-ctrl:hover:not(:disabled) {
+  background: rgba(0, 245, 212, 0.15);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  transform: translateY(-1px);
+}
+
+.btn-ctrl:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn-ctrl.btn-play-pause {
+  background: linear-gradient(135deg, var(--accent-blue), var(--primary-purple));
+  border: none;
+  width: 42px;
+  height: 36px;
+  color: #fff;
+}
+.btn-ctrl.btn-play-pause:hover:not(:disabled) {
+  box-shadow: 0 0 12px var(--primary-purple-glow);
+}
+
+/* Speed Slider Container */
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.speed-slider {
+  -webkit-appearance: none;
+  width: 80px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--bg-elevated);
+  outline: none;
+}
+.speed-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--neon-cyan);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+/* Step Progress Indicator */
+.step-progress-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.step-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.progress-track {
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--neon-cyan));
+  border-radius: var(--radius-full);
+  transition: width 0.2s ease;
+}
+
+/* Step Narration Card */
+.narration-card {
+  padding: 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.narration-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--neon-cyan);
+}
+
+.narration-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.narration-title {
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--neon-cyan);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.narration-badge {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+}
+
+.narration-text {
+  font-size: 0.88rem;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+/* Metrics & Cost Display Box */
+.metrics-hud {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.metric-pill {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-pill-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.metric-pill-value {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--neon-cyan);
+}
+
+/* Distance / State Table */
+.state-table-container {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.state-table-title {
+  padding: 0.6rem 0.85rem;
+  background: var(--bg-elevated);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.state-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+.state-table th, .state-table td {
+  padding: 0.45rem 0.6rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.state-table th {
+  color: var(--text-dim);
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.state-table tr.active-row {
+  background: rgba(0, 245, 212, 0.1);
+  color: var(--neon-cyan);
+}
+
+.state-table td.updated-cell {
+  background: rgba(6, 214, 160, 0.2);
+  color: #6ee7b7;
+  font-weight: 700;
+}
+
+/* DSU (Disjoint Set Union) Visualizer for Kruskal */
+.dsu-tree-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.dsu-chip {
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.dsu-chip.highlight {
+  border-color: var(--primary-purple);
+  background: rgba(157, 78, 221, 0.2);
+  color: #e0aaff;
+}
+
+/* Visualizer Legend */
+.legend-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.6rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legend-color-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+.legend-color-dot.cyan { background: var(--neon-cyan); box-shadow: 0 0 6px var(--neon-cyan); }
+.legend-color-dot.emerald { background: var(--accent-emerald); box-shadow: 0 0 6px var(--accent-emerald); }
+.legend-color-dot.crimson { background: var(--accent-crimson); box-shadow: 0 0 6px var(--accent-crimson); }
+.legend-color-dot.gold { background: var(--accent-gold); box-shadow: 0 0 6px var(--accent-gold); }
+.legend-color-dot.blue { background: var(--accent-blue); box-shadow: 0 0 6px var(--accent-blue); }
